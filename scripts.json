@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "check-types": "npx tsc --noEmit",
+    "lint": "npx expo lint",
+    "dev": "npx expo start",
+    "dev-clear": "npx expo start --clear",
+    "android": "npx expo start --android",
+    "ios": "npx expo start --ios",
+    "web": "npx expo start --web"
+  }
+}
