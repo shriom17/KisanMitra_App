@@ -1,4 +1,5 @@
-﻿import React, { useState } from 'react';
+﻿import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -23,6 +24,7 @@ const { width } = Dimensions.get('window');
 export function HomeScreen() {
   const [showWeatherModal, setShowWeatherModal] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
+  const router = useRouter();
 
   // Mock user data - you can replace this with actual user state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -71,7 +73,7 @@ export function HomeScreen() {
         handleMarketplaceClick();
         break;
       case 'profile':
-        Alert.alert('Profile', 'Navigate to User Profile');
+        router.push('/profile');
         break;
       default:
         break;
