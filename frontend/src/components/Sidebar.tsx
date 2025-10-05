@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import {
     Alert,
@@ -24,6 +25,7 @@ export function Sidebar({ isVisible, onClose, isLoggedIn = false, userName, user
   const sidebarWidth = width * 0.75; // 75% of screen width
   const slideAnim = useRef(new Animated.Value(-sidebarWidth)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
+  const router = useRouter();
 
   useEffect(() => {
     if (isVisible) {
@@ -93,12 +95,13 @@ export function Sidebar({ isVisible, onClose, isLoggedIn = false, userName, user
   };
 
   const handleAuthPress = (action: string) => {
+    onClose(); // Close sidebar first
+    
     if (action === 'login') {
-      Alert.alert('Login', 'Navigate to Login Screen');
+      router.push('/login');
     } else if (action === 'signup') {
-      Alert.alert('Sign Up', 'Navigate to Sign Up Screen');
+      router.push('/signup');
     }
-    onClose();
   };
 
   if (!isVisible) return null;
