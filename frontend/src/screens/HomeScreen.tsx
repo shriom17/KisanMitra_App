@@ -13,14 +13,28 @@ import {
 } from 'react-native';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { Header } from '../components/Header';
+import { Sidebar } from '../components/Sidebar';
 import { COLORS, FONT_SIZES, SPACING } from '../constants';
 
 const bgImage = require('../../../assets/images/homebg.avif');
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export function HomeScreen() {
   const [showWeatherModal, setShowWeatherModal] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  // Mock user data - you can replace this with actual user state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('John Farmer');
+
+  const handleMenuPress = () => {
+    setShowSidebar(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setShowSidebar(false);
+  };
 
   const handleGetStarted = () => {
     Alert.alert('Get Started', 'Navigate to Dashboard');
@@ -83,7 +97,7 @@ export function HomeScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Simplified Header Component - Logo Only */}
-          <Header />
+          <Header onMenuPress={handleMenuPress} />
 
           {/* Greeting Section */}
           <View style={styles.greetingSection}>
@@ -97,7 +111,12 @@ export function HomeScreen() {
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Explore Features</Text>
-                        <View style={styles.featuresContainer}>
+            <ScrollView 
+              style={styles.featuresScrollView}
+              showsVerticalScrollIndicator={false}
+              nestedScrollEnabled={true}
+            >
+              <View style={styles.featuresContainer}>
               <TouchableOpacity style={styles.featureBox} onPress={handleAIChatClick}>
                 <Text style={styles.featureIcon}>🏛️</Text>
                 <Text style={styles.featureTitle}>Government Schemes</Text>
@@ -121,7 +140,8 @@ export function HomeScreen() {
                 <Text style={styles.featureTitle}>Contact ADO</Text>
                 <Text style={styles.featureDescription}>Connect with Agriculture Development Officers</Text>
               </TouchableOpacity>
-            </View>
+              </View>
+            </ScrollView>
           </View>
         </ScrollView>
 
@@ -152,6 +172,14 @@ export function HomeScreen() {
           onAIPress={handleAnnapurnaPress}
         />
       </ImageBackground>
+
+      {/* Sidebar Component */}
+      <Sidebar 
+        isVisible={showSidebar}
+        onClose={handleCloseSidebar}
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+      />
     </View>
   );
 }
@@ -239,15 +267,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: SPACING.md,
+    paddingHorizontal: SPACING.md,
+  },
+  featuresScrollView: {
+    maxHeight: 400, // Fixed height to enable scrolling
+    marginHorizontal: SPACING.md,
   },
   featureBox: {
-    width: (width - SPACING.md * 3 - SPACING.lg * 2) / 2,
+    width: '48%',
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
     borderRadius: 20,
     padding: SPACING.lg,
     alignItems: 'center',
-    marginBottom: 1,
+    marginBottom: SPACING.md,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

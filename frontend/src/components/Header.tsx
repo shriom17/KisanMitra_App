@@ -1,21 +1,31 @@
 import React from 'react';
 import {
-    StyleSheet,
-    Text,
-    View
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SPACING } from '../constants';
 
 interface HeaderProps {
-  // No props needed for simple logo-only header
+  onMenuPress?: () => void;
 }
 
-export function Header({}: HeaderProps) {
+export function Header({ onMenuPress }: HeaderProps) {
   return (
     <View style={styles.headerContainer}>
       {/* Green KisanMitra Logo */}
       <View style={styles.logoSection}>
-        <Text style={styles.logoText}>🌾 KisanMitra</Text>
+        <View style={styles.headerContent}>
+          <TouchableOpacity 
+            style={styles.menuButton}
+            onPress={onMenuPress}
+          >
+            <Text style={styles.menuIcon}>☰</Text>
+          </TouchableOpacity>
+          <Text style={styles.logoText}>🌾 KisanMitra</Text>
+        </View>
       </View>
     </View>
   );
@@ -24,7 +34,7 @@ export function Header({}: HeaderProps) {
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: 'transparent',
-    marginTop: -10,
+    paddingTop: StatusBar.currentHeight || 40, // Add status bar height padding
   },
   logoSection: {
     paddingHorizontal: SPACING.lg,
@@ -32,6 +42,20 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     alignItems: 'flex-start',
     backgroundColor: 'rgba(255, 255, 255, 0.98)',
+  },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
+  menuButton: {
+    marginRight: 15,
+    padding: 5,
+  },
+  menuIcon: {
+    fontSize: 24,
+    color: '#174f19ff',
+    fontWeight: 'bold',
   },
   logoText: {
     fontSize: 32,
